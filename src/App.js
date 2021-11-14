@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import PrivateRoute from "./components/PrivateRoute";
+import Login from "./components/Login";
+import PrinciplePage from "./components/PrinciplePage";
+import TeacherPage from "./components/TeacherPage";
+import StudentPage from "./components/StudentPage";
 
-function App() {
+const App = () => {
+  const currentUser = useSelector((state) => state.currentUser);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="h-screen w-screen bg-mainBackgroundColor">
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Login} />
+          <PrivateRoute
+            path="/principle/:principleId"
+            component={PrinciplePage}
+          />
+          <PrivateRoute path="/teacher/:teacherId" component={TeacherPage} />
+          <PrivateRoute path="/student/:studentId" component={StudentPage} />
+        </Switch>
+      </Router>
     </div>
   );
-}
+};
 
 export default App;
